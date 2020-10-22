@@ -10,11 +10,11 @@ int main(void)
 
     //j = -30;
     //i = (uint8_t)j;
-    i = 129;
-    j = -i;
+    i = 0xD2;
+    j = i;
     k = j;
-    printf("uint8_t i = %hhx\n", i);
-    printf("int8_t j = %hhx\n", j);
+    printf("uint8_t i = %d\n", i);
+    printf("int8_t j = %d\n", j);
     printf("uint8_t k = %hhx\n", k);
     return 1;
 }
