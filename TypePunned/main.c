@@ -15,7 +15,7 @@ int main(void)
     return 0;
 }
 
-void cmemset(int16_t* p16, int32_t* p32)//if p16 is changed to int8_t*, then the printf result is the same for both -O1 and -O2
+void cmemset(int16_t* p16, int32_t* p32)//if p16 is changed to uint8_t*, then the printf result is always 128 regardless of the optimization. This is because char* can refer to an alias of any object
 {
     *p16 = 2;
     *p32 = 128;
