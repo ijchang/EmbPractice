@@ -10,8 +10,8 @@ int main(void)
 
     //j = -30;
     //i = (uint8_t)j;
-    i = 0xD2;
-    j = i;
+    i = 0x0A;
+    j = -i;
     k = j;
     printf("uint8_t i = %d\n", i);
     printf("int8_t j = %d\n", j);
