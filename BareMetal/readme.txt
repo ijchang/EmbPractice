@@ -5,3 +5,5 @@
 3. If you use -D to dump disassembly code, it shows all sections include .data, .bss sections. But with -d, it only shows executable section, that is .txt
 
 4. If you want to display both source code and disassembly code, you must first generate xxx.o with -g option in arm-none-eabi-gcc cmd. By doing so, the DWARF debugging information will be built into binary code. Then you use -S option in arm-none-eabi-objdump cmd to display both source code and disassembly code mixed together.
+
+5. If you want to view all the symbols of the application, you can use "arm-none-eabi-nm.exe final.elf" to show the symbols

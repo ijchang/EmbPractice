@@ -36,7 +36,11 @@ void task_delay(uint32_t tick_count);
 uint8_t current_task = 1; //task1 is running
 
 /* This variable gets updated from systick handler for every systick interrupt */
-uint32_t g_tick_count = 0;
+uint32_t g_tick_count = 0; //since it is initialized with 0, it will go into .bss seciton
+
+const uint32_t const_v_1 = 100;
+const uint32_t const_v_2 = 100;
+const uint8_t const_v_3 = 100; //this variable is of one byte and may cause _etext not word aligned. So we have to use ALIGN(4) in linker script
 
 /* This is a task control block carries private information of each task */
 typedef struct
@@ -48,7 +52,7 @@ typedef struct
 }TCB_t;
 
 /* Each task has its own TCB */
-TCB_t user_tasks[MAX_TASKS];
+TCB_t user_tasks[MAX_TASKS]; //since it is not initialized, it will go into COMMON section. So you need to add *(COMMON) in .bss section to ensure that user_tasks go into .bss section
 
 int main(void)
 {
@@ -380,20 +384,20 @@ void  SysTick_Handler(void)
 //2. implement the fault handlers
 void HardFault_Handler(void)
 {
-	printf("Exception : Hardfault\n");
+    printf("Exception : Hardfault\n");
 	while(1);
 }
 
 
 void MemManage_Handler(void)
 {
-	printf("Exception : MemManage\n");
+    printf("Exception : MemManage\n");
 	while(1);
 }
 
 void BusFault_Handler(void)
 {
-	printf("Exception : BusFault\n");
+    printf("Exception : BusFault\n");
 	while(1);
 }
 

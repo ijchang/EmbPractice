@@ -1,33 +1,18 @@
 #include "stdint.h" 
 #include "stdio.h"
+#include "string.h"
 //use gcc -fstrict-aliasing -Wstrict-aliasing=3 -O2 -o run.exe main.c to build
 //The printf result is 2
 //If -O2 is removed, the result is 128
 
 int main(void)
 {
-    uint8_t index;
-    uint32_t data;
+    uint8_t a = 3 __attribute__((unused));
+    //uint8_t b;
 
-    for(index = 0; index < 5; ++index)
-    {
-        data = index;
-    }
+    a = 4;
+    //b = 4;
 
-    printf("data = %d\n", data);
-    printf("index = %d\n", index);
-
-    switch(data)
-    {
-        printf("eeeee\n");
-
-        case 4:
-            printf("dddd\n");
-        break;
-
-        default:
-        break;
-    }
     return 0;
 }
 
