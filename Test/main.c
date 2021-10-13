@@ -7,11 +7,17 @@
 
 int main(void)
 {
-    uint8_t a = 3 __attribute__((unused));
+    //uint8_t a = 3 __attribute__((unused));
     //uint8_t b;
-
-    a = 4;
+    uint8_t b[3] = {1, 2, 3};
+    uint8_t *p_b = &b[0];
+    //a = 4;
     //b = 4;
+    *(p_b++) = 4;
+    *(p_b++) = 5;
+
+    printf("b[0] = %d\n", b[0]);
+    printf("b[1] = %d\n", b[1]);
 
     return 0;
 }

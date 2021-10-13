@@ -1,0 +1,40 @@
+
+main.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <main>:
+   0:	f3 0f 1e fa          	endbr64 
+   4:	55                   	push   %rbp
+   5:	48 89 e5             	mov    %rsp,%rbp
+   8:	0f b7 05 00 00 00 00 	movzwl 0x0(%rip),%eax        # f <main+0xf>
+   f:	0f b7 c8             	movzwl %ax,%ecx
+  12:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 19 <main+0x19>
+  19:	ba 0a 00 00 00       	mov    $0xa,%edx
+  1e:	89 ce                	mov    %ecx,%esi
+  20:	48 89 c7             	mov    %rax,%rdi
+  23:	e8 00 00 00 00       	callq  28 <main+0x28>
+  28:	b8 00 00 00 00       	mov    $0x0,%eax
+  2d:	5d                   	pop    %rbp
+  2e:	c3                   	retq   
+
+000000000000002f <TRACE1>:
+  2f:	f3 0f 1e fa          	endbr64 
+  33:	55                   	push   %rbp
+  34:	48 89 e5             	mov    %rsp,%rbp
+  37:	48 83 ec 10          	sub    $0x10,%rsp
+  3b:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+  3f:	89 f1                	mov    %esi,%ecx
+  41:	89 d0                	mov    %edx,%eax
+  43:	89 ca                	mov    %ecx,%edx
+  45:	66 89 55 f4          	mov    %dx,-0xc(%rbp)
+  49:	66 89 45 f0          	mov    %ax,-0x10(%rbp)
+  4d:	0f b7 45 f4          	movzwl -0xc(%rbp),%eax
+  51:	89 c6                	mov    %eax,%esi
+  53:	48 8d 3d 00 00 00 00 	lea    0x0(%rip),%rdi        # 5a <TRACE1+0x2b>
+  5a:	b8 00 00 00 00       	mov    $0x0,%eax
+  5f:	e8 00 00 00 00       	callq  64 <TRACE1+0x35>
+  64:	90                   	nop
+  65:	c9                   	leaveq 
+  66:	c3                   	retq   
