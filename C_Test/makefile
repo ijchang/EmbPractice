@@ -1,7 +1,7 @@
-run.exe: main.o
-	gcc -o run.exe main.o
-main.o: main.c
-	gcc -std=gnu99 -pedantic -Wall -c main.c
+run.exe: main_430.o
+	gcc -o run.exe main_430.o
+main.o: main_430.c
+	gcc -std=gnu99 -pedantic -Wall -c main_430.c
 .PHONY: clean
 clean:
 	rm -f run.exe *.o

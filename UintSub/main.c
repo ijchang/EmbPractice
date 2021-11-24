@@ -1,6 +1,10 @@
 #include "stdint.h" 
 #include "stdio.h"
+#include "main.h"
 /*add main.c*/
+
+int var;
+int var;
 
 int main(void)
 {

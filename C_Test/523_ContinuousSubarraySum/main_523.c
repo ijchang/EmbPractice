@@ -3,45 +3,31 @@
 #include "string.h"
 #include "stdbool.h"
 #include "stdlib.h"
-//Given an array of integers nums and an integer k,
-//return the total number of continuous subarrays whose sum equals to k.
+//Given an integer array nums and an integer k,
+//return true if nums has a continuous subarray of size at least two whose elements sum up to a multiple of k,
+//or false otherwise.
 
-//Input: nums = [1,1,1], k = 2
-//Output: 2
+//An integer x is a multiple of k if there exists an integer n such that x = n * k. 0 is always a multiple of k.
 
-//Input: nums = [1,2,3], k = 3
-//Output: 2
+//Input: nums = [23,2,4,6,7], k = 6
+//Output: true
+//Explanation: [2, 4] is a continuous subarray of size 2 whose elements sum up to 6.
 
-//Constraints:
-//1. 1 <= nums.length <= 2 * 10^4
-//2. -1000 <= nums[i] <= 1000
-//3. -10^7 <= k <= 10^7
+//Input: nums = [23,2,6,4,7], k = 6
+//Output: true
+//Explanation: [23, 2, 6, 4, 7] is an continuous subarray of size 5 whose elements sum up to 42.
+//42 is a multiple of 6 because 42 = 7 * 6 and 7 is an integer.
 
-int subarraySum(int* nums, int numsSize, int k);
+//Input: nums = [23,2,6,4,7], k = 13
+//Output: false
 
-int main(void)
-{
-    int nums[20000];
-    int count;
-    FILE *fptr;
+//Constraints
+//1. 1 <= nums.length <= 10^5
+//2. 0 <= nums[i] <= 10^9
+//3. 0 <= sum(nums[i]) <= 2^31 - 1
+//4. 1 <= k <= 2^31 - 1
 
-    if((fptr = fopen("./input2.txt", "r")) != NULL)
-    {
-        for(int index = 0; index < 20000; index++)
-        {
-            fscanf(fptr, "%d,", &nums[index]);
-        }
-
-        fclose(fptr);
-    }
-
-    count = subarraySum(&nums[0], 20000, -682);
-
-    printf("count = %d\n", count);
-
-}
-
-#define CAPACITY 20000
+#define CAPACITY 100000
 
 typedef struct hashEntry
 {
@@ -134,32 +120,73 @@ int getCnt(entry_T* p_hashTbl, int target)
     return 0;
 }
 
-int subarraySum(int* nums, int numsSize, int k)
+bool checkSubarraySum(int* nums, int numsSize, int k)
 {
     int i;
-    //i = 0, sum[1] = sum[0] + nums[0]
-    //i = 1, sum[2] = sum[1] + nums[1] = 0 + nums[0] + nums[1]
-    //i = 2, sum[3] = sum[2] + nums[2] = 0 + nums[0] + nums[1] + nums[2]
-    //...
-    //i = numsSize - 1, sum[numsSize] = sum[numsSize - 1] + nums[numsSize - 1] = 0 + nums[0] + ... nums[numsSize - 1]
+    int cnt = 0;
+    int SUM = 0;
 
-    //====================================
-    int totalCnt = 0;
-    int sum = 0;
     entry_T *p_hashTbl = calloc(CAPACITY, sizeof(entry_T));
 
-    for(i = 0; i < numsSize; i++)
-    {
-        addOne(p_hashTbl, sum);
-        sum += nums[i];
+    printf("numsSize = %d\n", numsSize);
 
-        int target = sum - k;
-        totalCnt += getCnt(p_hashTbl, target);
+    if(k == 0)
+    {
+        return true;
     }
 
-    free(p_hashTbl);
+    //=================================
+    for(i = 0; i < numsSize; i++)
+    {
+        addOne(p_hashTbl, (SUM % k));
 
-    return totalCnt;
+        SUM += nums[i];
+        //how many sum[j] in j = 0 ~ i have the same mod as sum[i+1]
+        cnt += getCnt(p_hashTbl, (SUM % k));
+        if((cnt > 0) && ((nums[i] % k) == 0))
+        {
+            cnt--;
+        }
+
+        if(cnt > 0)
+        {
+            break;
+        }
+    }
+
+    if(cnt > 0)
+    {
+        return true;
+    }
+
+    return false;
 }
+
+
+int main(void)
+{
+    int nums[10000];
+    bool answer;
+////    int count;
+    FILE *fptr;
+////
+    if((fptr = fopen("./input2.txt", "r")) != NULL)
+    {
+        for(int index = 0; index < 10000; index++)
+        {
+            fscanf(fptr, "%d,", &nums[index]);
+        }
+
+        fclose(fptr);
+    }
+//    int nums[5] = {23,2,6,4,7};
+//    bool answer;
+    answer = checkSubarraySum(&nums[0], 10000, 6);
+//
+    printf("answer = %d\n", answer);
+
+    return 0;
+}
+
 
 
