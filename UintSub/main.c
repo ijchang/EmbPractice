@@ -17,7 +17,7 @@ int main(void)
     printf("b = 0x%0*hx\n", 4, b);
     printf("a - b = 0x%x\n", (a -b));
 
-    if((a - b) >= 0x7FFF)
+    if((a - b) >= (uint16_t)0x7FFF)
     {
         printf("1\n");
     }

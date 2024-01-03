@@ -73,7 +73,12 @@ int main(void)
 
 	for(;;);
 }
-
+//71- 122
+void memcpTmp(uint32_t* restrict dst, uint32_t* restrict src, int len){
+    while(len--){
+        *dst++ = *src++;
+    }
+}
 
 void idle_task(void)
 {

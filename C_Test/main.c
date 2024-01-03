@@ -1,80 +1,105 @@
-#include "stdint.h" 
+#include "stdint.h"
+#include "stdlib.h"
 #include "stdio.h"
+#include "stdbool.h"
 #include "string.h"
 #include "limits.h"
+//#include "myHeader.h"
 //use gcc -fstrict-aliasing -Wstrict-aliasing=3 -O2 -o run.exe main.c to build
 //The printf result is 2
 //If -O2 is removed, the result is 128
-typedef struct
-{
-    char* str;
-    uint16_t len;
-}trace_T;
 
-trace_T trace[3] = {{"trace1", sizeof("trace1")}, {"test", 3}, {"test", 4}};
+//void memcpTmp(char* dst, char* src, int len){
+//    while(len--){
+//        *dst++ = *src++;
+//    }
+//}
 
-void TRACE1(char* p_str, uint16_t len, uint16_t var1);
+void swap(int *p_nums, int i, int j){
+    int tmp;
+    tmp = p_nums[i];
+    p_nums[i] = p_nums[j];
+    p_nums[j] = tmp;
+}
+
+int partition(int *p_nums, int start, int end){
+    int pivot, pIdx;
+
+    //find pivot and its index pIdx
+    pIdx = start + (end - start)/2;
+    pivot = p_nums[pIdx];
+
+    //arrange the array so that every elements to the left of the pIdx is less than or equal to pivot, and each elements
+    //to the right of the pIdx is large than or equal to the pivot.
+    int i = start-1;
+    int j = end+1;
+    while(1){
+        //starting from the i+1, from left to right, keep searching for an element p_nums[i] which is larger than or equal to pviot.
+        do{
+            i++;
+        }while(p_nums[i] < pivot);
+       
+        //starting from the j-1, from right to left, find a element p_nums[j] which is less than or equal to pviot
+        do{
+            j--;
+        }while(p_nums[j] > pivot);
+
+        //finish the process if i >= j; When this happens, all the elements to the right of i
+        //is larger than pivot and all the elements to the left of i is smaller than pivot.
+        if(i >= j){
+            break;
+        }
+        //swap the two elements
+        swap(p_nums, i, j);
+    }
+    
+    return j;
+}
+
+void qSort(int *p_nums, int start, int end){
+    int pIdx;
+
+	if(start >= end){
+		return;
+	}
+    
+    pIdx = partition(p_nums, start, end);
+
+    qSort(p_nums, start, pIdx);
+    qSort(p_nums, pIdx+1, end);
+}
+
+static inline int foo(){
+    return 2;
+}
+
+inline int add(int a, int b);
 
 int main(void)
 {
-    //uint8_t a = 3 __attribute__((unused));
-    //uint8_t b;
-/*
-    uint8_t b[3] = {1, 2, 3};
-    uint8_t *p_b = &b[0];
-    int16_t c = -16;
-    //a = 4;
-    //b = 4;
-    *(p_b++) = 4;
-    *(p_b++) = 5;
-
-    printf("b[0] = %d\n", b[0]);
-    printf("b[1] = %d\n", b[1]);
-    printf("c = %d\n", c);
-    printf("sizeof(int)=%ld\n", sizeof(int));
-    printf("INT_MIN=%d\n", INT_MIN);
-*/
-    /*
-    char str[6] = "TEST=";
-    //char *ptr1 = &str[20];
-    *ptr1 = 0x31;
-    uint8_t *ptr2 = (uint8_t*)&str[5];
-
-    *ptr2=0x02;
+	int nums[6] = {0, 10, -5, 7, -3, -12};
+	qSort(nums, 0, 5);
+	for(int i = 0; i < 6; i++){
+		printf("%d, ", nums[i]);
+	}
     
-    ptr2 = (uint8_t*)&str[0];
-    printf("%x\n", *ptr2);
-    ptr2 = (uint8_t*)&str[1];
-    printf("%x\n", *ptr2);
-    ptr2 = (uint8_t*)&str[2];
-    printf("%x\n", *ptr2);
-ptr2 = (uint8_t*)&str[3];
-    printf("%x\n", *ptr2);
-ptr2 = (uint8_t*)&str[4];
-    printf("%x\n", *ptr2);
-ptr2 = (uint8_t*)&str[5];
-    printf("%x\n", *ptr2);
-*/
-    //char *text_base = "text_base";
+    int8_t rssiA = -70;
+    uint8_t rssiB = 0xBA;
 
-  //  uint8_t text_full[strlen(text_base)+10];
+    int8_t rssiC;
+    int8_t rssiD;
 
-    //text_full[0] = 0;
-    //printf("text_full[0] = %d\n", text_full[0]);
+    rssiC = rssiA + 3;
+    rssiD = rssiB + 3;
 
-    TRACE1(trace[0].str, trace[0].len, 10);
-    //uint16_t len = sizeof("trace");
-    //(void) len;
+    printf("rssiC = %d\n", rssiC);
+    printf("rssiD = %d\n", rssiD);
+
+    int result = add(3, 4);
+    //int ret = foo();
+    printf("Sum: %d\n", result);
 
     return 0;
-}
+} 
 
-void TRACE1(char* p_str, uint16_t len, uint16_t var1)
-{
-    char str[len + sizeof(uint16_t)];
 
-    str[0] = *p_str;
-    printf("str=%x\n", str[0]);
-    printf("strlen=%ld\n", sizeof(p_str));
-    printf("input len=%d\n", len);
-}
